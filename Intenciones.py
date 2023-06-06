@@ -28,10 +28,10 @@ class Intencion:
         self.prioridad = self.urgencia - self.coste
         return True
 
-    def comprobaralcanzada(self, creencias):
+    def comprobar_alcanzada(self, creencias):
         return False
 
-    def comprobaranulada(self, creencias):
+    def comprobar_anulada(self, creencias):
         return False
 
 
@@ -64,18 +64,6 @@ class IntencionAllIn(Intencion):
         self.posteriores = []
         self.prioridad = 0
 
-    def comprobaralcanzada(self, creencias):
-
-        #Alcanzada si hay victoria
-
-        return False
-
-    def comprobaranulada(self, creencias):
-
-        #Anulada si no hay enemigos a la vista Y hay vision del spawn enemigo
-
-        return False
-
 
 class IntencionIdleAllIn(Intencion):
 
@@ -85,7 +73,7 @@ class IntencionIdleAllIn(Intencion):
         self.tipo = TipoIntencion.ATACAR_OBJETIVO_TROPLA_IDLE
         self.deseo = Deseos.IdleAllIn()
 
-    def comprobaralcanzada(self, creencias):
+    def comprobar_alcanzada(self, creencias):
         for c in creencias:
             if c.tipo == TipoCreencia.IDLE_FORCES:
                 return False
@@ -99,7 +87,7 @@ class CrearBarrack(Intencion):
         self.deseo = Deseos.MejorarEstructuras()
         self.urgencia = 1
 
-    def comprobaralcanzada(self, creencias):
+    def comprobar_alcanzada(self, creencias):
         for c in creencias:
             if c.tipo == TipoCreencia.BARRACON_DISPONIBLE:
                 return False
@@ -113,7 +101,7 @@ class CrearSupplyDepo(Intencion):
         self.tipo = TipoIntencion.CREAR_SUPPLY_DEPO
         self.deseo = Deseos.MejorarEstructuras()
 
-    def comprobaralcanzada(self, creencias):
+    def comprobar_alcanzada(self, creencias):
         for c in creencias:
             if c.tipo == TipoCreencia.FALTAN_SUPP_DEPO:
                 return False
@@ -132,7 +120,7 @@ class CrearRefineriaDeGas(IntencionCrearEdificio):
     def __init__(self):
         super().__init__(TipoIntencion.CREAR_REFINERIA_DE_GAS)
 
-    def comprobaralcanzada(self, creencias):
+    def comprobar_alcanzada(self, creencias):
         for c in creencias:
             if c.tipo == TipoCreencia.REFINERIA_DISPONIBLE:
                 return False
@@ -144,7 +132,7 @@ class CrearFactory(IntencionCrearEdificio):
     def __init__(self):
         super().__init__(TipoIntencion.CREAR_FACTORY)
 
-    def comprobaralcanzada(self, creencias):
+    def comprobar_alcanzada(self, creencias):
         for c in creencias:
             if c.tipo == TipoCreencia.FACTORIA_DISPONIBLE:
                 return False
@@ -162,7 +150,7 @@ class CrearTechlab(IntencionCrearEdificio):
     def __init__(self):
         super().__init__(TipoIntencion.CREAR_TECHLAB)
 
-    def comprobaralcanzada(self, creencias):
+    def comprobar_alcanzada(self, creencias):
         for c in creencias:
             if c.tipo == TipoCreencia.TECHLAB_DISPONIBLE:
                 return False
@@ -174,7 +162,7 @@ class EntrenarCyclone(IntencionCrearEdificio):
         super().__init__(TipoIntencion.ENTRENAR_CYCLON)
         self.urgencia = 1
 
-    def comprobaralcanzada(self, creencias):
+    def comprobar_alcanzada(self, creencias):
         for c in creencias:
             if c.tipo == TipoCreencia.CYCLONE_DISPONIBLE:
                 return False
@@ -188,7 +176,7 @@ class EntrenarTrabajadores(Intencion):
         self.tipo = TipoIntencion.CREAR_TRABAJADORES
         self.deseo = Deseos.EntrenarTropas()
 
-    def comprobaralcanzada(self, creencias):
+    def comprobar_alcanzada(self, creencias):
         for c in creencias:
             if c.tipo == TipoCreencia.FALTAN_TRABAJADORES:
                 return False
@@ -202,7 +190,7 @@ class OcuparTrabajadores(Intencion):
         self.tipo = TipoIntencion.OCUPAR_TRABAJADORES
         self.deseo = Deseos.OcuparObreros()
 
-    def comprobaralcanzada(self, creencias):
+    def comprobar_alcanzada(self, creencias):
         for c in creencias:
             if c.tipo == TipoCreencia.TRABAJADORES_IDLE:
                 return False
@@ -216,7 +204,7 @@ class SaturarGayser(Intencion):
         self.tipo = TipoIntencion.SATURAR_GEYSER
         self.deseo = Deseos.SaturarFacorias()
 
-    def comprobaralcanzada(self, creencias):
+    def comprobar_alcanzada(self, creencias):
         for c in creencias:
             if c.tipo == TipoCreencia.REFINERIA_SIN_SATURAR:
                 return False

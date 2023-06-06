@@ -1,10 +1,6 @@
-from sc2 import maps
 from sc2.bot_ai import BotAI
-from sc2.data import Difficulty, Race
 from sc2.ids.unit_typeid import UnitTypeId
 from sc2.ids.ability_id import AbilityId
-from sc2.main import run_game
-from sc2.player import Bot, Computer
 from sc2.position import Point2
 from sc2.unit import Unit
 from sc2.units import Units
@@ -134,11 +130,10 @@ class JugadorAgent(BotAI):
                     print(c.tipo, end=' ')
             print("")
 
-
     def actualiza_deseos(self):
         for d in self.misDeseos:
             if d.activo:
-                if d.comprobarsatisfecho(self.misCreencias):
+                if d.comprobar_satisfecho(self.misCreencias):
                     d.activo = False
                     d.intenciones = []
                 pass
@@ -149,17 +144,10 @@ class JugadorAgent(BotAI):
 
     def actualiza_intenciones(self):
         for i in self.misIntenciones:
-            if i.comprobaralcanzada(self.misCreencias):
+            if i.comprobar_alcanzada(self.misCreencias):
                 # quita la intencion actual de la lista de intenciones del agente
                 self.misIntenciones.remove(i)
-                # poner siguiente intencion del deseo en la lista de intenciones del agente
-                if len(i.posteriores) > 0:
-                    for post in i.posteriores:
-                        self.misIntenciones.append(post)
-            if i.comprobaranulada(self.misCreencias):
-                for p in i.posteriores:
-                    # quita todas las intenciones posteriores de las intenciones del agente
-                    self.misIntenciones.remove(p)
+            if i.comprobar_anulada(self.misCreencias):
                 self.misIntenciones.remove(i)
 
     def calcula_prioridades(self):
@@ -187,8 +175,10 @@ class JugadorAgent(BotAI):
         await self.ejecuta_intencion(self.elige_intencion())  # ejecuta la de mayor prioridad
 
     async def ejecuta_intencion(self, intencion):
+
         if intencion.tipo != TipoIntencion.ESPERAR:
             print("intencion a ejecutar: ", intencion.tipo)
+
         if intencion.tipo == TipoIntencion.ALL_IN:
             target = intencion.conceptos.position
             for unit in self.workers | self.units(UnitTypeId.CYCLONE):
@@ -255,4 +245,3 @@ class JugadorAgent(BotAI):
             # Los obreros que sobran minan minerales
             for scv in self.workers.idle:
                 scv.gather(self.mineral_field.closest_to(cc))
-

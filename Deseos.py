@@ -1,6 +1,5 @@
 from enum import Enum
 
-from Creencias import Creencia
 from Creencias import TipoCreencia
 
 import Intenciones
@@ -15,16 +14,10 @@ class Deseo:
         self.conceptos = None
         self.intenciones = []
 
-    def comprobarimposible(self, creencias):
-        return False
-
-    def comprobarsatisfecho(self, creencias):
+    def comprobar_satisfecho(self, creencias):
         for intencion in self.intenciones:
-            if not intencion.comprobaralcanzada(creencias):
+            if not intencion.comprobar_alcanzada(creencias):
                 return False
-        return True
-
-    def comprobarinteres(self, creencias):
         return True
 
 

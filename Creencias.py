@@ -1,5 +1,4 @@
 from sc2.units import Units
-from sc2.unit import Unit
 
 from enum import Enum
 
