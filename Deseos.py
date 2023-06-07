@@ -22,14 +22,12 @@ class Deseo:
 
 
 class TipoDeseo(Enum):
-
-    DEFENDER = 1
+    SATURAR_FACTORIAS = 1
     ALL_IN = 2
     MEJORAR_ESTRUCTURAS = 3
     ENTRENAR_TROPAS = 4
     OCUPAR_OBREROS = 5
     IDLE_ALL_IN = 6
-    SATURAR_FACTORIAS = 7
 
 
 class AllIn(Deseo):
@@ -40,7 +38,7 @@ class AllIn(Deseo):
         self.activo = False
         self.tipo = TipoDeseo.ALL_IN
 
-    def comprobaractivar(self, creencias):
+    def comprobar_activar(self, creencias):
         for c in creencias:
             if c.tipo == TipoCreencia.SITUACION_DESESPERADA:
                 for creencia_objetivo_prioritario in creencias:
@@ -59,7 +57,7 @@ class IdleAllIn(Deseo):
         self.activo = False
         self.tipo = TipoDeseo.IDLE_ALL_IN
 
-    def comprobaractivar(self, creencias):
+    def comprobar_activar(self, creencias):
         for c in creencias:
             if c.tipo == TipoCreencia.IDLE_FORCES:
                 # Si hay mas de dos unidades pasivas
@@ -81,7 +79,7 @@ class MejorarEstructuras(Deseo):
         self.activo = False
         self.tipo = TipoDeseo.MEJORAR_ESTRUCTURAS
 
-    def comprobaractivar(self, creencias):
+    def comprobar_activar(self, creencias):
         activar = False
         for c in creencias:
             if c.tipo == TipoCreencia.FACTORIA_DISPONIBLE:
@@ -111,7 +109,7 @@ class EntrenarTropas(Deseo):
         self.activo = False
         self.tipo = TipoDeseo.ENTRENAR_TROPAS
 
-    def comprobaractivar(self, creencias):
+    def comprobar_activar(self, creencias):
         activar = False
         for c in creencias:
             if c.tipo == TipoCreencia.CYCLONE_DISPONIBLE:
@@ -132,7 +130,7 @@ class OcuparObreros(Deseo):
         self.activo = False
         self.tipo = TipoDeseo.OCUPAR_OBREROS
 
-    def comprobaractivar(self, creencias):
+    def comprobar_activar(self, creencias):
         activar = False
         for c in creencias:
             if c.tipo == TipoCreencia.TRABAJADORES_IDLE:
@@ -150,7 +148,7 @@ class SaturarFacorias(Deseo):
         self.activo = False
         self.tipo = TipoDeseo.SATURAR_FACTORIAS
 
-    def comprobaractivar(self, creencias):
+    def comprobar_activar(self, creencias):
         activar = False
         for c in creencias:
             if c.tipo == TipoCreencia.REFINERIA_SIN_SATURAR:

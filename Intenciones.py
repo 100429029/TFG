@@ -14,42 +14,34 @@ class Intencion:
         self.deseo = None
         self.coste = 0
         self.urgencia = 0
-        self.posteriores = []
         self.prioridad = 0
 
     # ------------------ "async" necesario para "await" --------------
     """async def ejecuta(self):
         """
 
-    def comprobar_posible(self, creencias):
-        return True
-
-    def calcularprioridad(self, creencias, estado_del_mundo: BotAI):
+    def calcular_prioridad(self, creencias, estado_del_mundo: BotAI):
         self.prioridad = self.urgencia - self.coste
         return True
 
     def comprobar_alcanzada(self, creencias):
         return False
 
-    def comprobar_anulada(self, creencias):
-        return False
-
 
 class TipoIntencion(Enum):
 
     ALL_IN = 1
-    ATACAR_OBJETIVO_TROPLA_IDLE = 7
-    CREAR_TRABAJADORES = 8
-    CREAR_SUPPLY_DEPO = 9
-    CREAR_BARRACK = 10
-    CREAR_REFINERIA_DE_GAS = 11
-    CREAR_FACTORY = 12
-    ENTRENAR_CYCLON = 13
-    SATURAR_GEYSER = 14
-    MINAR_OBREROS_IDLE = 15
-    OCUPAR_TRABAJADORES = 16
-    ESPERAR = 17
-    CREAR_TECHLAB = 18
+    ATACAR_OBJETIVO_TROPLA_IDLE = 2
+    CREAR_TRABAJADORES = 3
+    CREAR_SUPPLY_DEPO = 4
+    CREAR_BARRACK = 5
+    CREAR_REFINERIA_DE_GAS = 6
+    CREAR_FACTORY = 7
+    ENTRENAR_CYCLON = 8
+    SATURAR_GEYSER = 9
+    OCUPAR_TRABAJADORES = 10
+    ESPERAR = 11
+    CREAR_TECHLAB = 12
 
 
 class IntencionAllIn(Intencion):
@@ -139,7 +131,7 @@ class CrearFactory(IntencionCrearEdificio):
         return True
 
     # Prioridad negativa mientras haya otra factoria sin techlab
-    def calcularprioridad(self, creencias, estado_del_mundo):
+    def calcular_prioridad(self, creencias, estado_del_mundo):
         for refineria in estado_del_mundo.structures(UnitTypeId.FACTORY).ready:
             if not refineria.has_add_on:
                 self.urgencia = -1

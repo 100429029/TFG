@@ -137,7 +137,7 @@ class JugadorAgent(BotAI):
                     d.activo = False
                     d.intenciones = []
                 pass
-            elif d.comprobaractivar(self.misCreencias):
+            elif d.comprobar_activar(self.misCreencias):
                 for nuevaIntencion in d.intenciones:
                     self.misIntenciones.append(nuevaIntencion)
                 d.activo = True
@@ -147,12 +147,10 @@ class JugadorAgent(BotAI):
             if i.comprobar_alcanzada(self.misCreencias):
                 # quita la intencion actual de la lista de intenciones del agente
                 self.misIntenciones.remove(i)
-            if i.comprobar_anulada(self.misCreencias):
-                self.misIntenciones.remove(i)
 
     def calcula_prioridades(self):
         for i in self.misIntenciones:
-            i.calcularprioridad(self.misCreencias, self)
+            i.calcular_prioridad(self.misCreencias, self)
         pass
 
     def elige_intencion(self) -> Intencion:
@@ -161,7 +159,7 @@ class JugadorAgent(BotAI):
         for i in self.misIntenciones:
             if i.tipo != TipoIntencion.ESPERAR:
                 print(i.tipo, " prioridad: ", i.prioridad, " ")
-            if i.prioridad > maximaprioridad and i.comprobar_posible(self.misCreencias):
+            if i.prioridad > maximaprioridad:
                 maximaprioridad = i.prioridad
                 intencion_a_ejecutar = i
         return intencion_a_ejecutar
@@ -179,12 +177,12 @@ class JugadorAgent(BotAI):
         if intencion.tipo != TipoIntencion.ESPERAR:
             print("intencion a ejecutar: ", intencion.tipo)
 
-        if intencion.tipo == TipoIntencion.ALL_IN:
+        if intencion.tipo == TipoIntencion.ALL_IN:  # Se evia a todas las unidades a atacar
             target = intencion.conceptos.position
             for unit in self.workers | self.units(UnitTypeId.CYCLONE):
                 unit.attack(target)
 
-        elif intencion.tipo == TipoIntencion.ATACAR_OBJETIVO_TROPLA_IDLE:
+        elif intencion.tipo == TipoIntencion.ATACAR_OBJETIVO_TROPLA_IDLE:  # Se ataca con las tropas paradas
             target = intencion.conceptos.position
             for unit in self.units(UnitTypeId.CYCLONE).idle:
                 unit.attack(target)
@@ -217,9 +215,7 @@ class JugadorAgent(BotAI):
                         print("no workers")
 
         elif intencion.tipo == TipoIntencion.CREAR_BARRACK and cc:
-            print("creando barrac¿?: ", end=" ")
-            print(self.can_afford(UnitTypeId.BARRACKS))
-            print(await self.build(UnitTypeId.BARRACKS, near=cc.position.towards(self.game_info.map_center, 12)))
+            await self.build(UnitTypeId.BARRACKS, near=cc.position.towards(self.game_info.map_center, 12))
 
         elif intencion.tipo == TipoIntencion.CREAR_FACTORY and cc:
             position: Point2 = cc.position.towards_with_random_angle(self.game_info.map_center, 16)
