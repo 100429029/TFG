@@ -3,7 +3,7 @@
 
 * Tener instalado el juego Starcraft 2: [https://starcraft2.com/es-es/]
 
-* Descargar el repositorio del proyecto: [https://github.com/100429029/TFG]
+* Descargar este repositorio
 
 * Mover el archivo “BerlingradAIE.SC2Map” del repositorio a la carpeta install-dir/Maps/, siendo install-dir la dirección de instalación del juego Starcraft2, por defecto Archivos De Programa (x86)/Starcraft 2.
 
